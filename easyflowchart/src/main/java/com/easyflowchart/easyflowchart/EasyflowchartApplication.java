@@ -9,5 +9,4 @@ public class EasyflowchartApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EasyflowchartApplication.class, args);
 	}
-
 }
