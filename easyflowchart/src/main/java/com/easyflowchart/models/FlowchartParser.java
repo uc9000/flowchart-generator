@@ -1,4 +1,4 @@
-package com.easyflowchart.easyflowchart.models;
+package com.easyflowchart.models;
 
 import org.springframework.stereotype.Service;
 
