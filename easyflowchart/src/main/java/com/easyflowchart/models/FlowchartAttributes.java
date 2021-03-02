@@ -1,11 +1,12 @@
-package com.easyflowchart.easyflowchart.models;
+package com.easyflowchart.models;
 
 public class FlowchartAttributes {
-    private String code, type;
+    private String code;
+    private String type;
 
     public FlowchartAttributes(){
-        this.code = new String();
-        this.type = new String();     
+        this.code = new String("");
+        this.type = new String("mermaid");     
     }
 
     public FlowchartAttributes(String code, String type){
@@ -19,5 +20,13 @@ public class FlowchartAttributes {
 
     public String getType() {
         return type;
+    }
+
+    public void setType(String type){
+        this.type = type;
+    }
+
+    public void setCode(String code){
+        this.code = code;
     }
 }

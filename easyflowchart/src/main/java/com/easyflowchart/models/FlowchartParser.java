@@ -3,30 +3,21 @@ package com.easyflowchart.models;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FlowchartParser {
-    private String syntaxType;
+public class FlowchartParser extends FlowchartAttributes{
 
     FlowchartParser(){
-        syntaxType = "mermaid";
+        setType("mermaid");
     }
 
     public String code2flowchart(String code){
-        if(syntaxType.equals("mermaid")){
+        if(getType().equals("mermaid")){
             return code;
         }
-        else if(syntaxType.equals("C")){
+        else if(getType().equals("C")){
             return "WIP";
         }
         else{
-            throw new IllegalArgumentException("Error: wrong syntax type");
+            return "Wrong type error";
         }
-    }
-
-    public void setType(String syntaxType){
-        this.syntaxType = syntaxType;
-    }
-
-    public String getType(){
-        return this.syntaxType;
     }
 }

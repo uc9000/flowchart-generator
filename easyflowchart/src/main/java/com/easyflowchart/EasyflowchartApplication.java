@@ -1,4 +1,4 @@
-package com.easyflowchart.easyflowchart;
+package com.easyflowchart;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

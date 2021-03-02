@@ -1,30 +1,25 @@
-package com.easyflowchart.easyflowchart.controllers;
+package com.easyflowchart.controllers;
 
-import com.easyflowchart.easyflowchart.models.FlowchartAttributes;
-import com.easyflowchart.easyflowchart.models.FlowchartParser;
+import com.easyflowchart.models.FlowchartAttributes;
+import com.easyflowchart.models.FlowchartParser;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
 public class HomeController {
     @Autowired
     private FlowchartParser flowchartParser;
 
     @GetMapping("/flowchart")
-    public ModelAndView flowchart(@RequestParam(value = "type", defaultValue = "mermaid") String type, @RequestParam(value = "code", defaultValue = "") String code){
+    public ModelAndView flowchart(@RequestParam(value = "type", defaultValue = "mermaid") String type, @RequestParam(value = "code", defaultValue = "A --> B") String code){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("flowchart.html");
-        try{
-            flowchartParser.setType(type);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            return new ModelAndView("index.html");
-        }        
+        flowchartParser.setType(type);     
         mv.addObject("convertedCode", flowchartParser.code2flowchart(code));
         mv.addObject("type", type);
         return mv;
