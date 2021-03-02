@@ -14,7 +14,8 @@
             <option th:value="'mermaid'">mermaid</option>
             <option th:value="'C'">C-based</option>
         </select>
-        <input type="text" th:field="*{code}">
+        <textarea cols="30" rows="10" th:field="*{code}"></textarea>
+        <input type="submit">
     </form>
 </body>
 </html>

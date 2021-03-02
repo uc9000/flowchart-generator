@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org"></html>
 <html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,5 +11,12 @@
 <body>
     <p>type: <span th:text = "${type}">type</span></p>
     <p>code: <span th:text = "${convertedCode}">code</span></p>
+    <textarea th:text = "${convertedCode}" cols="30" rows="10"></textarea>
+    <div th:utext="${convertedCode}" class="mermaid">
+        graph TD;
+        A --> B;
+    </div>
 </body>
+
+<script>mermaid.initialize({startOnLoad:true});</script>
 </html>
