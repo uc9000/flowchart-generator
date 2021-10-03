@@ -4,26 +4,26 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FlowchartParser extends FlowchartAttributes{
-    public final String GRAPH_DIRECTION;
+    public final String GRAPH_DIRECTION = "graph TD;\n"; // TD = top>down , LR = left>right etc.;
     FlowchartParser(){
-        setType("mermaid");
-        GRAPH_DIRECTION = new String("graph TD;\n"); // TD = top>down , LR = ledt>right etc.
+        super();
     }
 
     private String handleMermaidCode(String input){
-        String output = new String(GRAPH_DIRECTION + input);
-        return output;
+        this.setMarmeidCode(input);
+        return GRAPH_DIRECTION + input;
     }
 
     public String code2flowchart(String code){
-        if(getType().equals("mermaid")){
-            return handleMermaidCode(code);
-        }
-        else if(getType().equals("C")){
-            return "WIP";
-        }
-        else{
-            return "Wrong type error";
+        switch (getType()){
+            case MARMEID:
+                return handleMermaidCode(code);
+
+            case C:
+                return "WIP";
+
+            default:
+                throw new IllegalStateException(getType().name() + " not supported by FlowchartParser");
         }
     }
 }

@@ -16,10 +16,11 @@ public class HomeController {
     private FlowchartParser flowchartParser;
 
     @GetMapping("/flowchart")
-    public ModelAndView flowchart(@RequestParam(value = "type", defaultValue = "mermaid") String type, @RequestParam(value = "code", defaultValue = "A --> B") String code){
+    public ModelAndView flowchart(@RequestParam(value = "type", defaultValue = "mermaid") String type, @RequestParam(value = "marmeidCode", defaultValue = "A --> B") String code){
         ModelAndView mv = new ModelAndView();
         mv.setViewName("flowchart.html");
-        flowchartParser.setType(type);     
+        flowchartParser.setType(type);
+        mv.addObject("originalCode", code);
         mv.addObject("convertedCode", flowchartParser.code2flowchart(code));
         mv.addObject("type", type);
         return mv;

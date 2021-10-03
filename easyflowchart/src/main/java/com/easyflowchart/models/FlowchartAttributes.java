@@ -1,32 +1,25 @@
 package com.easyflowchart.models;
 
+import com.easyflowchart.enums.SyntaxType;
+import lombok.Data;
+
+@Data
 public class FlowchartAttributes {
-    private String code;
-    private String type;
+    private String marmeidCode;
+    private SyntaxType type;
 
+    // default values
     public FlowchartAttributes(){
-        this.code = new String("");
-        this.type = new String("mermaid");     
+        this.marmeidCode = "";
+        this.type = SyntaxType.MARMEID;
     }
 
-    public FlowchartAttributes(String code, String type){
-        this.code = code;
-        this.type = type; 
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type){
-        this.type = type;
-    }
-
-    public void setCode(String code){
-        this.code = code;
+    public void setType(String type) {
+        for(SyntaxType t : SyntaxType.values()){
+            if (t.type.equals(type)){
+                this.type = t;
+                return;
+            }
+        }
     }
 }
