@@ -9,13 +9,16 @@
     <title>Flowchart drawing tool</title>
 </head>
 <body>
-    <p>type: <span th:text = "${type}">type</span></p>
-    <p>code: <span th:text = "${convertedCode}">code</span></p>
-    <textarea th:text = "${convertedCode}" cols="30" rows="10"></textarea>
-    <div th:utext="${convertedCode}" class="mermaid">
-        graph TD;
-        A --> B;
-    </div>
+    <div th:utext="${convertedCode}" class="mermaid"></div>
+    <form action="#" th:action="@{/flowchart/(type = ${type},code = *{code})}" th:object="${flowchart}">
+        <label for="syntax">Select syntax</label>
+        <select id="syntax" th:field="${type}">
+            <option th:value="'mermaid'">mermaid</option>
+            <option th:value="'C'">C-based</option>
+        </select>
+        <textarea cols="30" rows="10" th:field="*{code}"></textarea>
+        <input type="submit">
+    </form>
 </body>
 
 <script>mermaid.initialize({startOnLoad:true});</script>

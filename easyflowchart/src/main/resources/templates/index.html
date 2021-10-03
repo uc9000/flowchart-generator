@@ -8,9 +8,9 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="#" th:action="@{/flowchart/(type = *{type},code = *{code})}" th:object="${flowchart}">
+    <form action="#" th:action="@{/flowchart/(type = ${type},code = *{code})}" th:object="${flowchart}">
         <label for="syntax">Select syntax</label>
-        <select id="syntax" th:field="*{type}">
+        <select id="syntax" th:field="${type}">
             <option th:value="'mermaid'">mermaid</option>
             <option th:value="'C'">C-based</option>
         </select>

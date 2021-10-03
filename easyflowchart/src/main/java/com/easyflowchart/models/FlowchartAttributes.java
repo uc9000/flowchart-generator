@@ -5,13 +5,13 @@ import lombok.Data;
 
 @Data
 public class FlowchartAttributes {
-    private String marmeidCode;
+    private String code;
     private SyntaxType type;
 
     // default values
     public FlowchartAttributes(){
-        this.marmeidCode = "";
-        this.type = SyntaxType.MARMEID;
+        this.code = "";
+        this.type = SyntaxType.MERMAID;
     }
 
     public void setType(String type) {

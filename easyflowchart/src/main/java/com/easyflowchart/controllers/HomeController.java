@@ -12,24 +12,25 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
-    @Autowired
-    private FlowchartParser flowchartParser;
+    private FlowchartParser flowchartParser = new FlowchartParser();
 
     @GetMapping("/flowchart")
-    public ModelAndView flowchart(@RequestParam(value = "type", defaultValue = "mermaid") String type, @RequestParam(value = "marmeidCode", defaultValue = "A --> B") String code){
-        ModelAndView mv = new ModelAndView();
+    public ModelAndView flowchart(@RequestParam(value = "type", defaultValue = "mermaid") String type, @RequestParam(value = "code", defaultValue = "A --> B") String code, ModelAndView mv){
         mv.setViewName("flowchart.html");
         flowchartParser.setType(type);
-        mv.addObject("originalCode", code);
-        mv.addObject("convertedCode", flowchartParser.code2flowchart(code));
+        String convertedCode = flowchartParser.code2flowchart(code);
+        mv.addObject("flowchart", flowchartParser);
+        mv.addObject("convertedCode", convertedCode);
         mv.addObject("type", type);
         return mv;
     }
 
     @GetMapping("/")
-    public String home(Model model){
-        FlowchartAttributes flowchart = new FlowchartAttributes();
-        model.addAttribute("flowchart", flowchart);
-        return "index.html";
+    public ModelAndView home(ModelAndView mv){
+        mv.setViewName("index.html");
+        String type = flowchartParser.getType().type;
+        mv.addObject("flowchart", flowchartParser);
+        mv.addObject("type", type);
+        return mv;
     }
 }
