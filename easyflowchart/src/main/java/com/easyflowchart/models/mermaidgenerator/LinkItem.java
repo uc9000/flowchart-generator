@@ -20,12 +20,15 @@ public class LinkItem extends MermaidItemAbstractClass {
     }
 
     private String createLinkDeclaration(){
+        if(fromId == null || toId == null){
+            throw new IllegalStateException("fromId or toId not defined");
+        }
         return fromId + linkType.getLink(content) + toId;
     }
 
     @Override
     public String getMermaidCode(){
-        return linkType.getLink(content);
+        return createLinkDeclaration();
     }
 
     public LinkItem(String  id){
