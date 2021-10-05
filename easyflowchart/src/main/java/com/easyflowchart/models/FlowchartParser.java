@@ -1,8 +1,10 @@
 package com.easyflowchart.models;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
+@Service
 public class FlowchartParser extends FlowchartAttributes{
     public final static String GRAPH_DIRECTION = "graph TD;\n"; // TD = top>down , LR = left>right etc.;
 
@@ -31,7 +33,7 @@ public class FlowchartParser extends FlowchartAttributes{
     }
 
     public String code2flowchart(String code){
-        switch (getType()){
+        switch (getSyntaxType()){
             case MERMAID:
                 return handleMermaidCode(code);
 
@@ -39,7 +41,7 @@ public class FlowchartParser extends FlowchartAttributes{
                 return handleCCode(code);
 
             default:
-                throw new IllegalStateException(getType().name() + " not supported by FlowchartParser");
+                throw new IllegalStateException(getSyntaxType().name() + " not supported by FlowchartParser");
         }
     }
 
