@@ -5,10 +5,17 @@ import com.easyflowchart.enums.NodeType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 public class NodeItem extends MermaidItemAbstractClass {
 
     @Getter @Setter
     NodeType nodeType;
+
+    @Getter
+    private final ArrayList<NodeItem> inputs  = new ArrayList<>();
+    @Getter
+    private final ArrayList<NodeItem> outputs = new ArrayList<>();
 
     @Override
     protected void initClass() {
@@ -17,6 +24,9 @@ public class NodeItem extends MermaidItemAbstractClass {
     }
 
     private String createNodeDeclaration(){
+        if(outputs.isEmpty()){
+            nodeType = NodeType.START_END;
+        }
         return id + nodeType.wrapContent(content) + ";";
     }
 

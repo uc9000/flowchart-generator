@@ -1,15 +1,24 @@
 package com.easyflowchart.easyflowchart;
 
 import com.easyflowchart.models.mermaidgenerator.LinkItem;
+import com.easyflowchart.models.mermaidgenerator.MermaidElementsManager;
 import com.easyflowchart.models.mermaidgenerator.NodeItem;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
 @SpringBootTest
 class EasyflowchartApplicationTests{
+	MermaidElementsManager mManager = new MermaidElementsManager();
+
+	@BeforeEach
+	void beforeEach(){
+		mManager.clear();
+	}
 
 	@Test
 	void nodesWithLinkGenerationTest() {
@@ -28,4 +37,20 @@ class EasyflowchartApplicationTests{
 		assertEquals("node1[Start];node2[End];node1-->node2", sb);
 	}
 
+	@Test
+	void NodesWithLinksChainTest(){
+		mManager.createMultipleLinkedNodes(new String[]{"Start", "Action", "End"});
+		log.info(mManager.getMermaidCode());
+	}
+
+	@Test
+	void DecisionNodeCreationTest(){
+		mManager.createSingleNodeLinkedToLast("Start");
+		NodeItem last = mManager.getLastNode();
+		NodeItem nodeIfTrue  = mManager.createSingleNode("x is greater than 2");
+		NodeItem nodeIfFalse = mManager.createSingleNode("x is less or equal to 2");
+		mManager.setLastNode(last);
+		mManager.createDecisionNodeLinkedToLast("x > 2 ?", nodeIfTrue, nodeIfFalse);
+		mManager.getMermaidCode();
+	}
 }

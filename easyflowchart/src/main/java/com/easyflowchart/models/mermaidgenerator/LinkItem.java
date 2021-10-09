@@ -23,7 +23,7 @@ public class LinkItem extends MermaidItemAbstractClass {
         if(fromId == null || toId == null){
             throw new IllegalStateException("fromId or toId not defined");
         }
-        return fromId + linkType.getLink(content) + toId;
+        return fromId + linkType.getLink(content) + toId + ";";
     }
 
     @Override
