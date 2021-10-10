@@ -92,6 +92,14 @@ public class MermaidElementsManager {
         return conditionNode;
     }
 
+    public NodeItem createDecisionNodeLinkedToLast(String condition, String labelIfTrue, String labelIfFalse){
+        NodeItem last = lastNode;
+        NodeItem nodeIfTrue  = createSingleNode(labelIfTrue);
+        NodeItem nodeIfFalse = createSingleNode(labelIfFalse);
+        lastNode = last;
+        return createDecisionNodeLinkedToLast(condition, nodeIfTrue, nodeIfFalse);
+    }
+
     public String getMermaidCode(){
         ArrayList<MermaidItem> items = new ArrayList<>(nodes);
         NodeItem firstNode = nodes.get(0);

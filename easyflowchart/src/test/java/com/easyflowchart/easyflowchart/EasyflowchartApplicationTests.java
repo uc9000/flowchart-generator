@@ -40,17 +40,17 @@ class EasyflowchartApplicationTests{
 	@Test
 	void NodesWithLinksChainTest(){
 		mManager.createMultipleLinkedNodes(new String[]{"Start", "Action", "End"});
-		log.info(mManager.getMermaidCode());
+		mManager.getMermaidCode();
 	}
 
 	@Test
 	void DecisionNodeCreationTest(){
 		mManager.createSingleNodeLinkedToLast("Start");
-		NodeItem last = mManager.getLastNode();
-		NodeItem nodeIfTrue  = mManager.createSingleNode("x is greater than 2");
-		NodeItem nodeIfFalse = mManager.createSingleNode("x is less or equal to 2");
-		mManager.setLastNode(last);
-		mManager.createDecisionNodeLinkedToLast("x > 2 ?", nodeIfTrue, nodeIfFalse);
+		NodeItem decisionNode = mManager.createDecisionNodeLinkedToLast("x > 2 ?", "write: x is greater than 2", "write: x is less or equal to 2");
+		NodeItem lastNode = mManager.createSingleNode("Save the result");
+		decisionNode.getOutputs().forEach(output -> {
+			mManager.linkNodes(output, lastNode);
+		});
 		mManager.getMermaidCode();
 	}
 }
