@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Slf4j
 @SpringBootTest
 class CParserTests {
-	CParser parser = new CParser();
+	CParser parser = new CParser(){};
 
 	@Test
 	void innerExtractionTest(){

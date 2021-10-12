@@ -9,14 +9,14 @@
     <title>Flowchart drawing tool</title>
 </head>
 <body>
-    <div th:utext="${convertedCode}" class="mermaid"></div>
-    <form action="#" th:action="@{/flowchart/(type = *{type},code = *{code})}" th:object="${flowchart}">
+    <div th:utext="*{convertedCode}" class="mermaid" th:object="${flowchart}"></div>
+    <form action="#" th:action="@{/flowchart/(*{type}, *{originalCode})}" th:object="${flowchart}">
         <label for="syntax">Select syntax</label>
         <select id="syntax" th:field="*{type}">
             <option th:value="'mermaid'">mermaid</option>
             <option th:value="'C'">C-based</option>
         </select>
-        <textarea cols="30" rows="10" th:field="*{code}"></textarea>
+        <textarea cols="30" rows="10" th:field="*{originalCode}"></textarea>
         <input type="submit">
     </form>
 </body>

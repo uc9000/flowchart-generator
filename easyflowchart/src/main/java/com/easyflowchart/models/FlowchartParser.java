@@ -1,5 +1,6 @@
 package com.easyflowchart.models;
 
+import com.easyflowchart.models.mermaidgenerator.cToMermaidConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +18,13 @@ public class FlowchartParser extends FlowchartAttributes{
     }
 
     private String handleMermaidCode(String input){
-        this.setCode(input);
-        log.info("Set code:\n" + input);
+        log.info("Set originalCode:\n" + input);
         return marmeidPrefix() + input;
     }
 
     private String ConvertCToMarmeidCode(String CCode) {
-        throw new IllegalStateException("C not yet supported");
-        //return "WIP"; // TODO: create C parser
+        cToMermaidConverter converter = new cToMermaidConverter();
+        return converter.getMermaidCode(CCode);
     }
 
     private String handleCCode(String input){
@@ -33,16 +33,20 @@ public class FlowchartParser extends FlowchartAttributes{
     }
 
     public String code2flowchart(String code){
+        this.setOriginalCode(code);
         switch (getSyntaxType()){
             case MERMAID:
-                return handleMermaidCode(code);
+                this.setConvertedCode(handleMermaidCode(code));
+                break;
 
             case C:
-                return handleCCode(code);
+                this.setConvertedCode(handleCCode(code));
+                break;
 
             default:
                 throw new IllegalStateException(getSyntaxType().name() + " not supported by FlowchartParser");
         }
+        return this.getConvertedCode();
     }
 
 }

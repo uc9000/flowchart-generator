@@ -31,6 +31,30 @@ public class MermaidElementsManager {
         links.clear();
     }
 
+    private void removeNode(NodeItem item){
+        item.getInputs().forEach(input -> {
+            int index = input.getOutputs().indexOf(item);
+            input.getOutputs().remove(item);
+            input.getOutputs().addAll(index, item.getOutputs());
+        });
+
+        item.getOutputs().forEach(output -> {
+            int index = output.getInputs().indexOf(item);
+            output.getInputs().remove(item);
+            output.getInputs().addAll(index, item.getInputs());
+        });
+        nodes.remove(item);
+    }
+
+    private void removeAllEmptyNodes(){
+        ArrayList <NodeItem> copyList = new ArrayList<>(nodes);
+        for (NodeItem node : copyList) {
+            if (node.content == null || node.content.isEmpty()) {
+                removeNode(node);
+            }
+        }
+    }
+
     public NodeItem createSingleNode(String label, NodeType type){
         NodeItem node = new NodeItem(generateNewId(MermaidItemType.NODE), label);
         if(type != null){
@@ -100,7 +124,12 @@ public class MermaidElementsManager {
         return createDecisionNodeLinkedToLast(condition, nodeIfTrue, nodeIfFalse);
     }
 
+    public NodeItem createDecisionNodeLinkedToLast(String condition){
+        return createDecisionNodeLinkedToLast(condition, "", "");
+    }
+
     public String getMermaidCode(){
+        removeAllEmptyNodes();
         ArrayList<MermaidItem> items = new ArrayList<>(nodes);
         NodeItem firstNode = nodes.get(0);
         firstNode.setNodeType(NodeType.START_END);

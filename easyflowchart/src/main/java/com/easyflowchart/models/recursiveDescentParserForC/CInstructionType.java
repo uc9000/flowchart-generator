@@ -50,10 +50,10 @@ public enum CInstructionType implements CParserConstants {
             case END_OF_SCOPE:
                 return true;
             case ELSE_STATEMENT:
-                return curlyOpen == -1 && parenthesisOpen == 0 && curlyCount > 0;
+                return curlyOpen < 0 && parenthesisOpen == 0 && curlyCount > 0;
             case IF_STATEMENT:
             case WHILE:
-                return curlyOpen == 0 && parenthesisOpen == 0 && curlyCount > 0 && parenthesisCount > 0;
+                return curlyOpen <= 0 && parenthesisOpen == 0 && curlyCount > 0 && parenthesisCount > 0;
 
         }
         return false;

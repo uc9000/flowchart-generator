@@ -12,10 +12,10 @@ public class NodeItem extends MermaidItemAbstractClass {
     @Getter @Setter
     NodeType nodeType;
 
-    @Getter
-    private final ArrayList<NodeItem> inputs  = new ArrayList<>();
-    @Getter
-    private final ArrayList<NodeItem> outputs = new ArrayList<>();
+    @Getter @Setter
+    private ArrayList<NodeItem> inputs  = new ArrayList<>();
+    @Getter @Setter
+    private ArrayList<NodeItem> outputs = new ArrayList<>();
 
     @Override
     protected void initClass() {
@@ -41,5 +41,16 @@ public class NodeItem extends MermaidItemAbstractClass {
 
     public NodeItem(String id, String content){
         super(id, content);
+    }
+
+    public NodeItem findLastInTree(int firstIndex){
+        NodeItem last = this;
+        if(last.outputs.size() > firstIndex){
+            last = last.outputs.get(firstIndex);
+        }
+        while (!last.outputs.isEmpty()){
+            last = last.outputs.get(0);
+        }
+        return last;
     }
 }

@@ -5,13 +5,14 @@ import lombok.Data;
 
 @Data
 public class FlowchartAttributes {
-    private String code;
+    private String originalCode;
+    private String convertedCode;
     private SyntaxType syntaxType;
     private String type;
 
     // default values
     public FlowchartAttributes(){
-        this.code = "A --> B";
+        this.originalCode = "A --> B";
         this.syntaxType = SyntaxType.MERMAID;
     }
 

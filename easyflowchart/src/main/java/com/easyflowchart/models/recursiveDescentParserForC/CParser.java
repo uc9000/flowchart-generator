@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CParser {
+public abstract class CParser {
 
     private final StringBuilder programBuilder = new StringBuilder(200);
 
@@ -101,7 +101,9 @@ public class CParser {
         onElseStatementExit(expressions);
     }
 
-    public void onEndOfScope(){}
+    public void onEndOfScope(){
+        log.info("END OF SCOPE");
+    }
 
     private void handleEndOfScope(){
         onEndOfScope();
@@ -121,7 +123,7 @@ public class CParser {
                 break;
             }
         }
-        log.info("program instruction of type: " + currentType + " code: " + code);
+        log.info("program instruction of type: " + currentType + " originalCode: " + code);
         switch (currentType){
             case END_OF_SCOPE:
                 handleEndOfScope();
@@ -153,6 +155,7 @@ public class CParser {
 
         //removing all whitespaces and new lines chars
         this.program = _program.replaceAll("[\\s\\n]", "");
+
         programBuilder.append(program);
         while ( ! programBuilder.toString().isEmpty() ){
             parseProgramInstruction();
