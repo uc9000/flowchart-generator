@@ -32,16 +32,21 @@ public class MermaidElementsManager {
     }
 
     private void removeNode(NodeItem item){
+//        item.setContent("tmp");
         item.getInputs().forEach(input -> {
             int index = input.getOutputs().indexOf(item);
-            input.getOutputs().remove(item);
-            input.getOutputs().addAll(index, item.getOutputs());
+            if(index >= 0){
+                input.getOutputs().remove(item);
+                input.getOutputs().addAll(index, item.getOutputs());
+            }
         });
 
         item.getOutputs().forEach(output -> {
             int index = output.getInputs().indexOf(item);
-            output.getInputs().remove(item);
-            output.getInputs().addAll(index, item.getInputs());
+            if(index >= 0){
+                output.getInputs().remove(item);
+                output.getInputs().addAll(index, item.getInputs());
+            }
         });
         nodes.remove(item);
     }
@@ -74,6 +79,9 @@ public class MermaidElementsManager {
         nodes.forEach(node -> {
             for(int i = 0; i < node.getOutputs().size(); i++) {
                 NodeItem output = node.getOutputs().get(i);
+                if(output.getId().equals(node.getId())){
+                    continue;
+                }
                 LinkItem link = new LinkItem(generateNewId(MermaidItemType.LINK));
                 link.setToId(output.getId());
                 link.setFromId(node.getId());

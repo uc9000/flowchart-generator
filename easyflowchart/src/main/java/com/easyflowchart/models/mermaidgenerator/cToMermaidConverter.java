@@ -42,6 +42,8 @@ public class cToMermaidConverter {
          manager.linkNodes(scopeNodes.peek().findLastInTree(0), manager.getLastNode());
          manager.linkNodes(scopeNodes.peek().findLastInTree(1), manager.getLastNode());
          scopeNodes.pop();
+         scopeNodes.pop();
+         scopeNodes.push(manager.getLastNode());
          outputIndexes.pop();
       }
 
@@ -54,6 +56,31 @@ public class cToMermaidConverter {
       @Override
       public void onElseStatementExit(String expressions){
          log.info("ELSE exited");
+      }
+
+
+      @Override
+      public void onWhileStatementEnter(String condition, String expressions){
+         condition = replaceChars(condition);
+         log.info("WHILE entered : " + condition + " than : " + expressions);
+         NodeItem scopeNode = manager.createDecisionNodeLinkedToLast(condition);
+         scopeNodes.push(scopeNode);
+         outputIndexes.push(0);
+         outputIndex = outputIndexes.peek();
+      }
+
+      @Override
+      public void onWhileStatementExit(String condition, String expressions){
+         log.info("WHILE exited : " + condition);
+         NodeItem loopNode = manager.createSingleNode("");
+         manager.linkNodes(scopeNodes.peek().findLastInTree(0), manager.getLastNode());
+         manager.linkNodes(scopeNodes.peek().findLastInTree(1), manager.getLastNode());
+         NodeItem decisionNode = scopeNodes.pop();
+         scopeNodes.pop();
+         manager.createSingleNodeLinkedToLast("");
+         scopeNodes.push(manager.getLastNode());
+         manager.linkNodes(loopNode, decisionNode);
+         outputIndexes.pop();
       }
 
       @Override

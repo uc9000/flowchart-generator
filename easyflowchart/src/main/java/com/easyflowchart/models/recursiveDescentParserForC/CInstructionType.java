@@ -1,6 +1,5 @@
 package com.easyflowchart.models.recursiveDescentParserForC;
 
-import com.easyflowchart.models.recursiveDescentParserForC.CParserConstants;
 import lombok.Getter;
 
 import java.util.regex.Matcher;
@@ -49,8 +48,10 @@ public enum CInstructionType implements CParserConstants {
             case UNKNOWN:
             case END_OF_SCOPE:
                 return true;
+
             case ELSE_STATEMENT:
                 return curlyOpen < 0 && parenthesisOpen == 0 && curlyCount > 0;
+
             case IF_STATEMENT:
             case WHILE:
                 return curlyOpen <= 0 && parenthesisOpen == 0 && curlyCount > 0 && parenthesisCount > 0;

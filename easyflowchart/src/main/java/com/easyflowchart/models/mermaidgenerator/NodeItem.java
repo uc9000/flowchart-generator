@@ -48,7 +48,7 @@ public class NodeItem extends MermaidItemAbstractClass {
         if(last.outputs.size() > firstIndex){
             last = last.outputs.get(firstIndex);
         }
-        while (!last.outputs.isEmpty()){
+        while (!last.outputs.isEmpty() && last.outputs.get(0).outputs.size() <= 1){
             last = last.outputs.get(0);
         }
         return last;

@@ -27,18 +27,18 @@ public abstract class CParser {
         StringBuilder innerString = new StringBuilder();
         int open = 1;
         for (char c : code.toCharArray()){
-                if(opening == c) {
-                    open++;
+            if(opening == c) {
+                open++;
+            }
+            else if(closing == c) {
+                open--;
+            }
+            else {
+                if(specialCharCheck && isSpecialChar(c)){
+                    throw new IllegalStateException("Can't use this special character here: " + c);
                 }
-                else if(closing == c) {
-                    open--;
-                }
-                else {
-                    if(specialCharCheck && isSpecialChar(c)){
-                        throw new IllegalStateException("Can't this special character here: " + c);
-                    }
-                    innerString.append(c);
-                }
+                innerString.append(c);
+            }
 
             if (open == 0) {
                 return innerString.toString();
@@ -82,6 +82,24 @@ public abstract class CParser {
         onIfStatementEnter(condition, expressions);
         parseProgramInstruction();
         onIfStatementExit(condition, expressions);
+    }
+
+    public void onWhileStatementEnter(String condition, String expressions){
+        log.info("WHILE entered : " + condition + " than : " + expressions);
+    }
+
+    public void onWhileStatementExit(String condition, String expressions){
+        log.info("WHILE exited : " + condition);
+    }
+
+    private void handleWhileStatement(){
+        String statement = programBuilder.toString();
+        String condition = getStringInOuterParenthesis(statement);
+        String expressions = getStringInOuterCurly(statement);
+        programBuilder.delete(0, condition.length() + 8);
+        onWhileStatementEnter(condition, expressions);
+        parseProgramInstruction();
+        onWhileStatementExit(condition, expressions);
     }
 
     public void onElseStatementEnter(String expressions){
@@ -142,7 +160,8 @@ public abstract class CParser {
                 return;
 
             case WHILE:
-                //todo
+                handleWhileStatement();
+                return;
 
             case UNKNOWN:
             default:
