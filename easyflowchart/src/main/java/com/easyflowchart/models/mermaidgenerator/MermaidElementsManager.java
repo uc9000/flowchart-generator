@@ -74,6 +74,9 @@ public class MermaidElementsManager {
         nodes.forEach(node -> {
             for(int i = 0; i < node.getOutputs().size(); i++) {
                 NodeItem output = node.getOutputs().get(i);
+                if(output.getId().equals(node.getId())){
+                    continue;
+                }
                 LinkItem link = new LinkItem(generateNewId(MermaidItemType.LINK));
                 link.setToId(output.getId());
                 link.setFromId(node.getId());

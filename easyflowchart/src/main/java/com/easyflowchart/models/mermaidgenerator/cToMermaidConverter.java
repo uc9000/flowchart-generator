@@ -57,6 +57,30 @@ public class cToMermaidConverter {
       }
 
       @Override
+      public void onWhileStatementEnter(String condition, String expressions){
+         condition = replaceChars(condition);
+         log.info("WHILE entered : " + condition + " than : " + expressions);
+         NodeItem scopeNode = manager.createDecisionNodeLinkedToLast(condition);
+         scopeNodes.push(scopeNode);
+         outputIndexes.push(0);
+         outputIndex = outputIndexes.peek();
+      }
+
+      @Override
+      public void onWhileStatementExit(String condition, String expressions){
+         log.info("WHILE exited : " + condition);
+         NodeItem loopNode = manager.createSingleNode("");
+         manager.linkNodes(scopeNodes.peek().findLastInTree(0), manager.getLastNode());
+         manager.linkNodes(scopeNodes.peek().findLastInTree(1), manager.getLastNode());
+         NodeItem decisionNode = scopeNodes.pop();
+         manager.createSingleNode("");
+         manager.linkNodes(decisionNode, manager.getLastNode());
+         scopeNodes.push(manager.getLastNode());
+         manager.linkNodes(loopNode, decisionNode);
+         outputIndexes.pop();
+      }
+
+      @Override
       public void onEndOfScope(){
       }
 

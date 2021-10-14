@@ -101,6 +101,24 @@ public abstract class CParser {
         onElseStatementExit(expressions);
     }
 
+    public void onWhileStatementEnter(String condition, String expressions){
+        log.info("WHILE entered : " + condition + " than : " + expressions);
+    }
+
+    public void onWhileStatementExit(String condition, String expressions){
+        log.info("WHILE exited : " + condition);
+    }
+
+    private void handleWhileStatement(){
+        String statement = programBuilder.toString();
+        String condition = getStringInOuterParenthesis(statement);
+        String expressions = getStringInOuterCurly(statement);
+        programBuilder.delete(0, condition.length() + 8);
+        onWhileStatementEnter(condition, expressions);
+        parseProgramInstruction();
+        onWhileStatementExit(condition, expressions);
+    }
+
     public void onEndOfScope(){
         log.info("END OF SCOPE");
     }
@@ -142,7 +160,8 @@ public abstract class CParser {
                 return;
 
             case WHILE:
-                //todo
+                handleWhileStatement();
+                return;
 
             case UNKNOWN:
             default:
