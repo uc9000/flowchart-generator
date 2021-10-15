@@ -6,8 +6,8 @@ public interface MermaidItem {
     void setContent(String content);
     String getContent();
 
-    void setId(String id);
-    String  getId();
+    void setId(Integer id);
+    Integer getId();
 
     void setItemType(MermaidItemType itemType);
     MermaidItemType getItemType();

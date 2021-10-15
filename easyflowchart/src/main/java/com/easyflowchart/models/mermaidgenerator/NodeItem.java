@@ -27,7 +27,7 @@ public class NodeItem extends MermaidItemAbstractClass {
         if(outputs.isEmpty()){
             nodeType = NodeType.START_END;
         }
-        return id + nodeType.wrapContent(content) + ";";
+        return "N" + id + nodeType.wrapContent(content) + ";";
     }
 
     @Override
@@ -35,11 +35,11 @@ public class NodeItem extends MermaidItemAbstractClass {
         return createNodeDeclaration();
     }
 
-    public NodeItem(String  id){
+    public NodeItem(int  id){
         super(id);
     }
 
-    public NodeItem(String id, String content){
+    public NodeItem(int id, String content){
         super(id, content);
     }
 
@@ -48,8 +48,9 @@ public class NodeItem extends MermaidItemAbstractClass {
         if(last.outputs.size() > firstIndex){
             last = last.outputs.get(firstIndex);
         }
-        while (!last.outputs.isEmpty()){
-            last = last.outputs.get(0);
+        ArrayList<NodeItem> outputs = last.outputs;
+        while (!outputs.isEmpty() && outputs.get(0).getId() > last.getId()){
+            last = outputs.get(0);
         }
         return last;
     }

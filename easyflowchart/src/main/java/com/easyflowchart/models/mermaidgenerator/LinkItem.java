@@ -11,7 +11,7 @@ public class LinkItem extends MermaidItemAbstractClass {
     LinkType linkType;
 
     @Getter @Setter
-    String fromId, toId;
+    Integer fromId, toId;
 
     @Override
     protected void initClass() {
@@ -23,7 +23,7 @@ public class LinkItem extends MermaidItemAbstractClass {
         if(fromId == null || toId == null){
             throw new IllegalStateException("fromId or toId not defined");
         }
-        return fromId + linkType.getLink(content) + toId + ";";
+        return "N" +  fromId + linkType.getLink(content) +  "N" +  toId + ";";
     }
 
     @Override
@@ -31,11 +31,11 @@ public class LinkItem extends MermaidItemAbstractClass {
         return createLinkDeclaration();
     }
 
-    public LinkItem(String  id){
+    public LinkItem(int  id){
         super(id);
     }
 
-    public LinkItem(String id, String content){
+    public LinkItem(int id, String content){
         super(id, content);
     }
 }

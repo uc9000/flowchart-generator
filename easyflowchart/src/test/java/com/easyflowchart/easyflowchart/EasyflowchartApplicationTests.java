@@ -22,9 +22,9 @@ class EasyflowchartApplicationTests{
 
 	@Test
 	void nodesWithLinkGenerationTest() {
-		NodeItem node1 = new NodeItem("node1", "Start");
-		NodeItem node2 = new NodeItem("node2", "End");
-		LinkItem link1 = new LinkItem("link1");
+		NodeItem node1 = new NodeItem(1, "Start");
+		NodeItem node2 = new NodeItem(2, "End");
+		LinkItem link1 = new LinkItem(1);
 
 		link1.setFromId(node1.getId());
 		link1.setToId(node2.getId());

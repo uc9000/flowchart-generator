@@ -1,6 +1,7 @@
 package com.easyflowchart.models.mermaidgenerator;
 
 import com.easyflowchart.enums.NodeType;
+import com.easyflowchart.models.recursiveDescentParserForC.CInstructionType;
 import com.easyflowchart.models.recursiveDescentParserForC.CParser;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +20,9 @@ public class cToMermaidConverter {
 
 
    private String replaceChars(String input){
-      input = input.replaceAll("[;]", ""); // remove all
+      input = input.replaceAll("[;\"'`]", ""); // remove all
       input = input.replaceAll("_", " ");
+      input = "\"" + input + "\"";
       return input;
    }
 
@@ -36,9 +38,9 @@ public class cToMermaidConverter {
       }
 
       @Override
-      public void onIfStatementExit(String condition, String expressions){
-         log.info("IF exited : " + condition);
-         manager.createSingleNode("");
+      public void onIfStatementExit(){
+         log.info("IF exited");
+         manager.createSingleNode("if_merge_node");
          manager.linkNodes(scopeNodes.peek().findLastInTree(0), manager.getLastNode());
          manager.linkNodes(scopeNodes.peek().findLastInTree(1), manager.getLastNode());
          scopeNodes.pop();
@@ -52,11 +54,6 @@ public class cToMermaidConverter {
       }
 
       @Override
-      public void onElseStatementExit(String expressions){
-         log.info("ELSE exited");
-      }
-
-      @Override
       public void onWhileStatementEnter(String condition, String expressions){
          condition = replaceChars(condition);
          log.info("WHILE entered : " + condition + " than : " + expressions);
@@ -67,9 +64,9 @@ public class cToMermaidConverter {
       }
 
       @Override
-      public void onWhileStatementExit(String condition, String expressions){
-         log.info("WHILE exited : " + condition);
-         NodeItem loopNode = manager.createSingleNode("");
+      public void onWhileStatementExit(){
+         log.info("WHILE exited : ");
+         NodeItem loopNode = manager.createSingleNode("while_merge_node");
          manager.linkNodes(scopeNodes.peek().findLastInTree(0), manager.getLastNode());
          manager.linkNodes(scopeNodes.peek().findLastInTree(1), manager.getLastNode());
          NodeItem decisionNode = scopeNodes.pop();
@@ -81,7 +78,7 @@ public class cToMermaidConverter {
       }
 
       @Override
-      public void onEndOfScope(){
+      public void onEndOfScope(CInstructionType type){
       }
 
       @Override

@@ -1,5 +1,6 @@
 package com.easyflowchart.easyflowchart;
 
+import com.easyflowchart.models.recursiveDescentParserForC.CInstructionType;
 import com.easyflowchart.models.recursiveDescentParserForC.CParser;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ class CToMermaidConvertTest {
 	CParser parser = new CParser(){
 
 		@Override
-		public void onEndOfScope() {
+		public void onEndOfScope(CInstructionType type) {
 
 		}
 	};

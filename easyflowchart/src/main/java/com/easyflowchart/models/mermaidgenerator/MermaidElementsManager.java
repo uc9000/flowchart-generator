@@ -20,9 +20,9 @@ public class MermaidElementsManager {
     @Getter @Setter
     private NodeItem lastNode = null;
 
-    private String generateNewId (MermaidItemType type) {
+    private Integer generateNewId (MermaidItemType type) {
         idCount++;
-        return type.name() + idCount;
+        return idCount;
     }
 
     public void clear(){
@@ -32,6 +32,11 @@ public class MermaidElementsManager {
     }
 
     private void removeNode(NodeItem item){
+        boolean debug = false;
+        if(debug){
+            item.setContent("tmp");
+            return;
+        }
         item.getInputs().forEach(input -> {
             int index = input.getOutputs().indexOf(item);
             input.getOutputs().remove(item);

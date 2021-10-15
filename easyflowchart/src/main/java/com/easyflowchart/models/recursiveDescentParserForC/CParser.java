@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Stack;
+
 @Slf4j
 public abstract class CParser {
 
@@ -11,6 +13,9 @@ public abstract class CParser {
 
     @Getter @Setter
     private String program;
+
+    @Getter
+    private final Stack <CInstructionType> currentScope = new Stack<>();
 
     private boolean isSpecialChar(char c){
         String specialCharacters = "{}();";
@@ -70,8 +75,8 @@ public abstract class CParser {
         log.info("IF entered : " + condition + " than : " + expressions);
     }
 
-    public void onIfStatementExit(String condition, String expressions){
-        log.info("IF exited : " + condition);
+    public void onIfStatementExit(){
+        log.info("IF exited");
     }
 
     private void handleIfStatement(){
@@ -81,15 +86,10 @@ public abstract class CParser {
         programBuilder.delete(0, condition.length() + 5);
         onIfStatementEnter(condition, expressions);
         parseProgramInstruction();
-        onIfStatementExit(condition, expressions);
     }
 
     public void onElseStatementEnter(String expressions){
         log.info("ELSE entered : " + expressions);
-    }
-
-    public void onElseStatementExit(String expressions){
-        log.info("ELSE exited");
     }
 
     private void handleElseStatement(){
@@ -98,15 +98,14 @@ public abstract class CParser {
         programBuilder.delete(0, 6);
         onElseStatementEnter(expressions);
         parseProgramInstruction();
-        onElseStatementExit(expressions);
     }
 
     public void onWhileStatementEnter(String condition, String expressions){
         log.info("WHILE entered : " + condition + " than : " + expressions);
     }
 
-    public void onWhileStatementExit(String condition, String expressions){
-        log.info("WHILE exited : " + condition);
+    public void onWhileStatementExit(){
+        log.info("WHILE exited");
     }
 
     private void handleWhileStatement(){
@@ -116,16 +115,31 @@ public abstract class CParser {
         programBuilder.delete(0, condition.length() + 8);
         onWhileStatementEnter(condition, expressions);
         parseProgramInstruction();
-        onWhileStatementExit(condition, expressions);
     }
 
-    public void onEndOfScope(){
+    public void onEndOfScope(CInstructionType type){
         log.info("END OF SCOPE");
     }
 
     private void handleEndOfScope(){
-        onEndOfScope();
+        CInstructionType type = currentScope.pop();
+        onEndOfScope(type);
+
+        switch (type){
+            case IF_STATEMENT:
+                onIfStatementExit();
+                break;
+
+            case WHILE:
+                onWhileStatementExit();
+                break;
+
+            default:
+                throw new IllegalStateException("Unsupported END OF SCOPE for instruction: " + type.name());
+        }
+
         programBuilder.delete(0, 1);
+        parseProgramInstruction();
     }
 
     private void parseProgramInstruction(){
@@ -156,10 +170,12 @@ public abstract class CParser {
                 return;
 
             case IF_STATEMENT:
+                currentScope.push(currentType);
                 handleIfStatement();
                 return;
 
             case WHILE:
+                currentScope.push(currentType);
                 handleWhileStatement();
                 return;
 
