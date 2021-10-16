@@ -1,6 +1,5 @@
 package com.easyflowchart.models.mermaidgenerator;
 
-import com.easyflowchart.enums.NodeType;
 import com.easyflowchart.models.recursiveDescentParserForC.CInstructionType;
 import com.easyflowchart.models.recursiveDescentParserForC.CParser;
 import lombok.Getter;
@@ -15,8 +14,8 @@ public class cToMermaidConverter {
    private final MermaidElementsManager manager = new MermaidElementsManager();
 
    private final Stack <NodeItem> scopeNodes = new Stack<>();
-   private final Stack <Integer> outputIndexes = new Stack<>();
-   Integer outputIndex = 0;
+
+   private NodeItem fromNode;
 
 
    private String replaceChars(String input){
@@ -33,24 +32,23 @@ public class cToMermaidConverter {
          log.info("IF entered : " + condition + " than : " + expressions);
          NodeItem scopeNode = manager.createDecisionNodeLinkedToLast(condition);
          scopeNodes.push(scopeNode);
-         outputIndexes.push(0);
-         outputIndex = outputIndexes.peek();
+         fromNode = scopeNode.getOutputs().get(0);
       }
 
       @Override
       public void onIfStatementExit(){
          log.info("IF exited");
-         manager.createSingleNode("if_merge_node");
-         manager.linkNodes(scopeNodes.peek().findLastInTree(0), manager.getLastNode());
+         manager.createSingleNode("");
+         manager.linkNodes(fromNode, manager.getLastNode());
          manager.linkNodes(scopeNodes.peek().findLastInTree(1), manager.getLastNode());
          scopeNodes.pop();
-         outputIndexes.pop();
+         fromNode = manager.getLastNode();
       }
 
       @Override
       public void onElseStatementEnter(String expressions){
          log.info("ELSE entered : " + expressions);
-         outputIndex++;
+         fromNode = scopeNodes.peek().getOutputs().get(1);
       }
 
       @Override
@@ -59,8 +57,6 @@ public class cToMermaidConverter {
          log.info("WHILE entered : " + condition + " than : " + expressions);
          NodeItem scopeNode = manager.createDecisionNodeLinkedToLast(condition);
          scopeNodes.push(scopeNode);
-         outputIndexes.push(0);
-         outputIndex = outputIndexes.peek();
       }
 
       @Override
@@ -74,7 +70,6 @@ public class cToMermaidConverter {
          manager.linkNodes(decisionNode, manager.getLastNode());
          scopeNodes.push(manager.getLastNode());
          manager.linkNodes(loopNode, decisionNode);
-         outputIndexes.pop();
       }
 
       @Override
@@ -90,8 +85,9 @@ public class cToMermaidConverter {
             scopeNodes.push(manager.getLastNode()); // add root node
          }
          else {
-            manager.linkNodes(scopeNodes.peek().findLastInTree(outputIndex), manager.getLastNode());
+            manager.linkNodes(fromNode, manager.getLastNode());
          }
+         fromNode = manager.getLastNode();
       }
    };
 

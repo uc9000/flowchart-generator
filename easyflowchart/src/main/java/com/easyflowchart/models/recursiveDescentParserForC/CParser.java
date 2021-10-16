@@ -123,7 +123,6 @@ public abstract class CParser {
 
     private void handleEndOfScope(){
         CInstructionType type = currentScope.pop();
-        onEndOfScope(type);
 
         switch (type){
             case IF_STATEMENT:
@@ -137,7 +136,7 @@ public abstract class CParser {
             default:
                 throw new IllegalStateException("Unsupported END OF SCOPE for instruction: " + type.name());
         }
-
+        onEndOfScope(type);
         programBuilder.delete(0, 1);
         parseProgramInstruction();
     }

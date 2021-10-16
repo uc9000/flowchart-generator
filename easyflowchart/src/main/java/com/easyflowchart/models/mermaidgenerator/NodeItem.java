@@ -51,6 +51,7 @@ public class NodeItem extends MermaidItemAbstractClass {
         ArrayList<NodeItem> outputs = last.outputs;
         while (!outputs.isEmpty() && outputs.get(0).getId() > last.getId()){
             last = outputs.get(0);
+            outputs = last.outputs;
         }
         return last;
     }
