@@ -30,6 +30,7 @@ public class cToMermaidConverter {
       public void onIfStatementEnter(String condition, String expressions){
          condition = replaceChars(condition);
          log.info("IF entered : " + condition + " than : " + expressions);
+         manager.setLastNode(fromNode);
          NodeItem scopeNode = manager.createDecisionNodeLinkedToLast(condition);
          scopeNodes.push(scopeNode);
          fromNode = scopeNode.getOutputs().get(0);
@@ -38,8 +39,8 @@ public class cToMermaidConverter {
       @Override
       public void onIfStatementExit(){
          log.info("IF exited");
-         manager.createSingleNode("");
-         manager.linkNodes(fromNode, manager.getLastNode());
+         manager.createSingleNode("#if_merge");
+         manager.linkNodes(scopeNodes.peek().findLastInTree(0), manager.getLastNode());
          manager.linkNodes(scopeNodes.peek().findLastInTree(1), manager.getLastNode());
          scopeNodes.pop();
          fromNode = manager.getLastNode();
@@ -55,21 +56,19 @@ public class cToMermaidConverter {
       public void onWhileStatementEnter(String condition, String expressions){
          condition = replaceChars(condition);
          log.info("WHILE entered : " + condition + " than : " + expressions);
+         manager.setLastNode(fromNode);
          NodeItem scopeNode = manager.createDecisionNodeLinkedToLast(condition);
          scopeNodes.push(scopeNode);
+         fromNode = scopeNode.getOutputs().get(0);
       }
 
       @Override
       public void onWhileStatementExit(){
          log.info("WHILE exited : ");
-         NodeItem loopNode = manager.createSingleNode("while_merge_node");
-         manager.linkNodes(scopeNodes.peek().findLastInTree(0), manager.getLastNode());
-         manager.linkNodes(scopeNodes.peek().findLastInTree(1), manager.getLastNode());
-         NodeItem decisionNode = scopeNodes.pop();
-         manager.createSingleNode("");
-         manager.linkNodes(decisionNode, manager.getLastNode());
-         scopeNodes.push(manager.getLastNode());
-         manager.linkNodes(loopNode, decisionNode);
+         manager.linkNodes(fromNode, scopeNodes.peek());
+         fromNode = scopeNodes.peek().findLastInTree(1);
+
+         scopeNodes.pop();
       }
 
       @Override

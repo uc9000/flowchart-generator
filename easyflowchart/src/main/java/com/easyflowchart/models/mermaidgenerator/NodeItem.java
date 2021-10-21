@@ -49,7 +49,7 @@ public class NodeItem extends MermaidItemAbstractClass {
             last = last.outputs.get(firstIndex);
         }
         ArrayList<NodeItem> outputs = last.outputs;
-        while (!outputs.isEmpty() && outputs.get(0).getId() > last.getId()){
+        while (!outputs.isEmpty() && (outputs.get(0).getId() > last.getId() || last.getId() < 0)){
             last = outputs.get(0);
             outputs = last.outputs;
         }

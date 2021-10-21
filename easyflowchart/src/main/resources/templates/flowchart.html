@@ -16,10 +16,27 @@
             <option th:value="'mermaid'">mermaid</option>
             <option th:value="'C'">C-based</option>
         </select>
+
         <textarea cols="30" rows="10" th:field="*{originalCode}"></textarea>
+
         <input type="submit">
     </form>
 </body>
 
-<script>mermaid.initialize({startOnLoad:true});</script>
+<script>
+    var config = {
+        startOnLoad:true,
+
+        flowchart:{
+            curve:'basis',
+            nodeSpacing:55,
+            rankSpacing:20,
+            height:20
+        },
+
+        securityLevel:'loose',
+    };
+    mermaid.initialize(config);
+</script>
+<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
 </html>

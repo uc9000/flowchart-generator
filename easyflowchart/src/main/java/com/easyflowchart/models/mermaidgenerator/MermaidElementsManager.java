@@ -33,7 +33,10 @@ public class MermaidElementsManager {
 
     private void removeNode(NodeItem item){
         boolean debug = false;
-        if(debug){
+        if(debug && !item.content.isEmpty()){
+            return;
+        }
+        if(debug ){
             item.setContent("tmp");
             return;
         }
@@ -54,14 +57,17 @@ public class MermaidElementsManager {
     private void removeAllEmptyNodes(){
         ArrayList <NodeItem> copyList = new ArrayList<>(nodes);
         for (NodeItem node : copyList) {
-            if (node.content == null || node.content.isEmpty()) {
+            if (node.content == null || node.content.isEmpty() || node.content.toCharArray()[0] == '#') {
                 removeNode(node);
             }
         }
     }
 
     public NodeItem createSingleNode(String label, NodeType type){
-        NodeItem node = new NodeItem(generateNewId(MermaidItemType.NODE), label);
+        int id = label.isEmpty()
+                ? -1 * generateNewId(MermaidItemType.NODE)
+                : generateNewId(MermaidItemType.NODE);
+        NodeItem node = new NodeItem(id, label);
         if(type != null){
             node.setNodeType(type);
         }

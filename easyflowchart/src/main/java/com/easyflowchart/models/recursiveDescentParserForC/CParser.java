@@ -93,6 +93,9 @@ public abstract class CParser {
     }
 
     private void handleElseStatement(){
+        if( ! currentScope.peek().equals(CInstructionType.IF_STATEMENT)){
+            throw new IllegalStateException("Unsupported syntax: ELSE must be used only after closing IF");
+        }
         String statement = programBuilder.toString();
         String expressions = getStringInOuterCurly(statement);
         programBuilder.delete(0, 6);

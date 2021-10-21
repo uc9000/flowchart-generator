@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class FlowchartParser extends FlowchartAttributes{
+
     public final static String GRAPH_DIRECTION = "graph TD;\n"; // TD = top>down , LR = left>right etc.;
+
 
     public FlowchartParser (){
         super();

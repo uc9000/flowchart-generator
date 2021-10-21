@@ -15,11 +15,17 @@ public class HomeController {
 
     @GetMapping("/flowchart")
     public ModelAndView flowchart(@RequestParam(value = "type", defaultValue = "mermaid") String type, @RequestParam(value = "originalCode", defaultValue = "A --> B") String code, ModelAndView mv){
-        mv.setViewName("flowchart.html");
-        flowchartParser.setType(type);
-        flowchartParser.code2flowchart(code);
-        mv.addObject("flowchart", flowchartParser);
-        return mv;
+        try {
+            mv.setViewName("flowchart.html");
+            flowchartParser.setType(type);
+            flowchartParser.code2flowchart(code);
+            mv.addObject("flowchart", flowchartParser);
+            return mv;
+        } catch (Exception e){
+            mv.setViewName("errorpage.html");
+            mv.addObject("message", e.getMessage());
+            return mv;
+        }
     }
 
     @GetMapping("/")
