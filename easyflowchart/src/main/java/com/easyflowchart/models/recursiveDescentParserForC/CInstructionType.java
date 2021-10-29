@@ -18,7 +18,7 @@ public enum CInstructionType implements CParserConstants {
     private final Pattern PATTERN;
 
     CInstructionType(String regexPattern){
-        this.PATTERN = Pattern.compile(regexPattern);
+        this.PATTERN = Pattern.compile(regexPattern, Pattern.UNICODE_CHARACTER_CLASS);
     }
 
     private boolean isGroupBalanced(String code){
