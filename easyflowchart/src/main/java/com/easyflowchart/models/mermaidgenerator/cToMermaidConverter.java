@@ -25,14 +25,14 @@ public class cToMermaidConverter {
       return input;
    }
 
-   private String wordWrap(String input){
+   private String wordWrap(String input, final int maxChars){
       String [] words = input.split(" ");
       StringBuilder sb = new StringBuilder();
       int charCount = 0;
       for (String word : words){
          charCount += word.length();
          sb.append(word);
-         if(charCount < 12){
+         if(charCount < maxChars){
             sb.append(" ");
          }else{
             charCount = 0;
@@ -46,7 +46,7 @@ public class cToMermaidConverter {
       @Override
       public void onIfStatementEnter(String condition, String expressions){
          condition = replaceChars(condition);
-         condition = wordWrap(condition);
+         condition = wordWrap(condition, 12);
          log.info("IF entered : " + condition + " than : " + expressions);
          manager.setLastNode(fromNode);
          NodeItem scopeNode = manager.createDecisionNodeLinkedToLast(condition);
@@ -73,7 +73,7 @@ public class cToMermaidConverter {
       @Override
       public void onWhileStatementEnter(String condition, String expressions){
          condition = replaceChars(condition);
-         condition = wordWrap(condition);
+         condition = wordWrap(condition, 12);
          log.info("WHILE entered : " + condition + " than : " + expressions);
          manager.setLastNode(fromNode);
          NodeItem scopeNode = manager.createDecisionNodeLinkedToLast(condition);
@@ -97,6 +97,7 @@ public class cToMermaidConverter {
       @Override
       public void onExpressionEnter(String expression){
          expression = replaceChars(expression);
+         expression = wordWrap(expression, 45);
          log.info("expression entered: " + expression);
          manager.createSingleNode(expression);
          if(scopeNodes.empty()){
