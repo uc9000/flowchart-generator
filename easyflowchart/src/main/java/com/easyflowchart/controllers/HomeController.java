@@ -1,5 +1,6 @@
 package com.easyflowchart.controllers;
 
+import com.easyflowchart.enums.SyntaxType;
 import com.easyflowchart.models.FlowchartParser;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ public class HomeController {
     private FlowchartParser flowchartParser;
 
     @GetMapping("/flowchart")
-    public ModelAndView flowchart(@RequestParam(value = "type", defaultValue = "mermaid") String type, @RequestParam(value = "originalCode", defaultValue = "A --> B") String code, ModelAndView mv){
+    public ModelAndView flowchart(@RequestParam(value = "type", defaultValue = "mermaid") SyntaxType type,
+                                  @RequestParam(value = "originalCode", defaultValue = "A --> B") String code,
+                                  ModelAndView mv){
         try {
             mv.setViewName("flowchart.html");
-            flowchartParser.setType(type);
+            flowchartParser.setSyntaxType(type);
             flowchartParser.code2flowchart(code);
             mv.addObject("flowchart", flowchartParser);
             return mv;

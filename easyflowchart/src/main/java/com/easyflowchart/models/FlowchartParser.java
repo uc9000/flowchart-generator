@@ -1,11 +1,17 @@
 package com.easyflowchart.models;
 
 import com.easyflowchart.models.mermaidgenerator.cToMermaidConverter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+@EqualsAndHashCode(callSuper = true)
 @Slf4j
 @Service
+@Primary
+@Data
 public class FlowchartParser extends FlowchartAttributes{
 
     public final static String GRAPH_DIRECTION = "graph TD;\n"; // TD = top>down , LR = left>right etc.;

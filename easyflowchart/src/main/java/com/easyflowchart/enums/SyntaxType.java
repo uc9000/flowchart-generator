@@ -7,7 +7,7 @@ public enum SyntaxType {
     MERMAID("mermaid");
 
     @Getter
-    public String type;
+    private String type;
 
     SyntaxType(String type){
         this.type = type;
