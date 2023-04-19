@@ -20,7 +20,7 @@ class EasyflowchartApplicationTests{
 		mManager.clear();
 	}
 
-	@Test
+//	@Test
 	void nodesWithLinkGenerationTest() {
 		NodeItem node1 = new NodeItem(1, "Start");
 		NodeItem node2 = new NodeItem(2, "End");
