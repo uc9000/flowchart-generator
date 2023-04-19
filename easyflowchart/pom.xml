@@ -48,13 +48,11 @@
 			<artifactId>jackson-core</artifactId>
 			<version>2.14.2</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.2.3</version>
-			<scope>test</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.slf4j</groupId>-->
+<!--			<artifactId>slf4j-api</artifactId>-->
+<!--			<version>1.7.5</version>-->
+<!--		</dependency>-->
 
 	</dependencies>
 	<build>
@@ -67,10 +65,10 @@
 					<target>11</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--			</plugin>-->
 		</plugins>
 	</build>
 </project>
