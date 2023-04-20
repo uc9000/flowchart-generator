@@ -29,7 +29,7 @@ public class CodeConvertController {
     public ConvertResponseDTO convert(@RequestBody ConvertRequestDTO request){
         log.info("convert request: \n" + request.toString());
         SyntaxType type = request.getType();
-        type = (type == null) ? SyntaxType.MERMAID : type;
+        type = (type == null) ? SyntaxType.C : type;
         flowchartParser.setSyntaxType(type);
         String converted = flowchartParser.code2flowchart(request.getOriginalCode());
         return new ConvertResponseDTO(converted, type);
