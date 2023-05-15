@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "https://easychart-production.up.railway.app/:1"})
+@CrossOrigin(origins = {"http://localhost:3000", "https://easychart-production.up.railway.app"})
 @RequestMapping(
         value = "/api/v1",
         produces = "application/json",
